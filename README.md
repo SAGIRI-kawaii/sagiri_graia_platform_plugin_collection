@@ -28,6 +28,4 @@
 - [Repeater](plugins/Repeater) 一个复读插件
 - [PetPet](plugins/PetPet) 生成摸头gif
 - [PixivImageSearcher](plugins/PixivImageSearcher) 一个链接saucenao的以图搜图插件
-
-## 如何添加插件
-提交pr
+- [TraceMoeImageSearcher](plugins/TraceMoeImageSearcher) 一个链接tracemoe的以图搜番插件

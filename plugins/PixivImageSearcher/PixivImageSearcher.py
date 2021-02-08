@@ -33,7 +33,7 @@ inc = InterruptControl(bcc)
 app: GraiaMiraiApplication = platform.get_app()
 
 # 填入你的saucenao_cookie
-saucenao_cookie = ""
+saucenao_cookie = "__cfduid=d7985df61f738fc1c9efa649a9ef6beda1611393506; _ga=GA1.2.422562977.1611393519; _gid=GA1.2.1444813627.1611393519; __gads=ID=175ed2c6a7b65db9:T=1611393545:S=ALNI_MZfvF0y0G7A5jx6uLtK0NuFvL3tXg; token=600bea1fded12; user=46840; auth=5e5f00e71ca8c5860e7ac390cf71c32694c977e9"
 
 
 @bcc.receiver(GroupMessage, dispatchers=[Kanata([FullMatch('搜图')])])
@@ -42,9 +42,12 @@ async def pixiv_image_searcher(app: GraiaMiraiApplication, member: Member, group
     image_get: bool = False
     message_received = None
 
-    await app.sendGroupMessage(group, MessageChain.create([
-        At(member.id), Plain("请在30秒内发送要搜索的图片呐~(仅支持pixiv图片搜索呐！)")
-    ]))
+    try:
+        await app.sendGroupMessage(group, MessageChain.create([
+            At(member.id), Plain("请在30秒内发送要搜索的图片呐~(仅支持pixiv图片搜索呐！)")
+        ]))
+    except AccountMuted:
+        return None
 
     @Waiter.create_using_function([GroupMessage])
     def waiter(
@@ -69,11 +72,14 @@ async def pixiv_image_searcher(app: GraiaMiraiApplication, member: Member, group
     start_time = time.time()
     await inc.wait(waiter)
     if image_get:
-        await app.sendGroupMessage(
-            group,
-            await search_image(message_received[Image][0]),
-            quote=message_received[Source][0]
-        )
+        try:
+            await app.sendGroupMessage(
+                group,
+                await search_image(message_received[Image][0]),
+                quote=message_received[Source][0]
+            )
+        except AccountMuted:
+            pass
 
 
 async def search_image(img: Image) -> MessageChain:
