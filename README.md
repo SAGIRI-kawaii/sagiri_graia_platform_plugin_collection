@@ -21,6 +21,7 @@
 ## 插件列表
 
 - [MessagePrinter](plugins/MessagePrinter) 一个示例插件，输出所有收到的消息
+- [PluginsManager](plugins/PluginsManager) 一个目前还没有什么功能的SagiriGraiaPlatform的插件管理器
 - [GithubRepositoriesFinder](plugins/GithubRepositoriesFinder) 一个能搜索github仓库的插件
 - [GroupWordCloudGenerator](plugins/GroupWordCloudGenerator) 记录聊天记录并生成个人/群组词云
 - [SetuSaver](plugins/SetuSaver) 根据pid存储图片
